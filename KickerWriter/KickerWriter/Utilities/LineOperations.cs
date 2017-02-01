@@ -1,4 +1,4 @@
-﻿namespace KickerWriter.Helper
+﻿namespace KickerWriter.Utilities
 {
     public static class LineOperations
     {

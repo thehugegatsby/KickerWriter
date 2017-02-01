@@ -11,10 +11,11 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
+using KickerWriter.Features.Main;
 using KickerWriter.Model;
+using Microsoft.Practices.ServiceLocation;
 
-namespace KickerWriter.ViewModel
+namespace KickerWriter.Features
 {
     /// <summary>
     /// This class contains static references to all the view models in the

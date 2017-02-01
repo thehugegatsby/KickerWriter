@@ -8,5 +8,6 @@ namespace KickerWriter.Model
     public interface IDataService
     {
         void GetData(Action<DataItem, Exception> callback);
+        IEnumerable<Season> GetAllSeasons();
     }
 }

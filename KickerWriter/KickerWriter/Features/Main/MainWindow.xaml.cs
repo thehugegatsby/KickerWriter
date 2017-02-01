@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using KickerWriter.ViewModel;
 
-namespace KickerWriter
+namespace KickerWriter.Features.Main
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

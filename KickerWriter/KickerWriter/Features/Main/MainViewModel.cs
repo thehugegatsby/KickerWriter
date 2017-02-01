@@ -1,7 +1,8 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight;
 using KickerWriter.Model;
 
-namespace KickerWriter.ViewModel
+namespace KickerWriter.Features.Main
 {
     /// <summary>
     /// This class contains properties that the main View can data bind to.
@@ -36,6 +37,29 @@ namespace KickerWriter.ViewModel
             }
         }
 
+        private ObservableCollection<Season> _allSeasons;
+
+        public ObservableCollection<Season> AllSeasons
+        {
+            get { return this._allSeasons; }
+
+            set
+            {
+                Set(ref _allSeasons, value);
+            }
+        }
+
+        private Season _selectedSeason;
+
+        public Season SelectedSeason
+        {
+            get { return this._selectedSeason; }
+
+            set
+            {
+                Set(ref _selectedSeason, value);
+            }
+        }
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
@@ -53,6 +77,8 @@ namespace KickerWriter.ViewModel
 
                     WelcomeTitle = item.Title;
                 });
+            this.AllSeasons = new ObservableCollection<Season>(dataService.GetAllSeasons());
+            this.SelectedSeason = IsInDesignModeStatic ? this.AllSeasons[1] : this.AllSeasons[0];
         }
 
         ////public override void Cleanup()
