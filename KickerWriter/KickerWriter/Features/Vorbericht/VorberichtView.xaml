@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="KickerWriter.Features.Vorbericht.VorberichtView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:kommentar="clr-namespace:KickerWriter.Features.Kommentar"
+             mc:Ignorable="d" 
+             DataContext="{Binding Vorbericht, Source={StaticResource Locator}}">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBox Text="{Binding Header}"/>
+            <ListView Margin="10" Name="lvUsers" ItemsSource="{Binding Mitspieler }">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" Width="Auto" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Verein" Width= "Auto" DisplayMemberBinding="{Binding Verein}" />
+                        <GridViewColumn Header="Liga" Width="Auto" DisplayMemberBinding="{Binding Liga}" />
+                        <GridViewColumn Header="Verein" Width= "Auto" DisplayMemberBinding="{Binding Stärke}" />
+                        <GridViewColumn Header="Liga" Width="Auto" DisplayMemberBinding="{Binding Stadion}" />
+                        <GridViewColumn Header="Vorstand" Width= "Auto" DisplayMemberBinding="{Binding SaisonzielManager}" />
+                        <GridViewColumn Header="Manager" Width="Auto" DisplayMemberBinding="{Binding SaisonzielVorstand}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <kommentar:KommentarView DataContext="{Binding}">
+            </kommentar:KommentarView>
+        </StackPanel>
+    </Grid>
+</UserControl>

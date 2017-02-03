@@ -1,9 +1,11 @@
-﻿<Window x:Class="KickerWriter.Features.Main.MainWindow"
+﻿<controls:MetroWindow x:Class="KickerWriter.Features.Main.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:vorbericht="clr-namespace:KickerWriter.Features.Vorbericht"
         mc:Ignorable="d ignore"
         Height="600"
         Width="600"
@@ -13,7 +15,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/Skins/Metro.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -27,6 +29,22 @@
                 <Button Content=" Save "/>
                 <Button Content=" Add Season "/>
             </StackPanel>
+            <TabControl ItemsSource="{Binding Tabs}">
+                <TabControl.Resources>
+                    <DataTemplate DataType="{x:Type vorbericht:VorberichtViewModel}">
+                        <vorbericht:VorberichtView />
+                    </DataTemplate>
+                </TabControl.Resources>
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Header" Value="{Binding Header}" />
+                        <Setter Property="Content" Value="{Binding ViewModel}" />
+                    </Style>
+                </TabControl.ItemContainerStyle>
+            </TabControl>
         </StackPanel>
     </Grid>
-</Window>
+</controls:MetroWindow>
+
+
+

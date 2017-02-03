@@ -4,9 +4,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using KickerWriter.Model;
 using KickerWriter.Utilities;
 
-namespace KickerWriter.Model
+namespace KickerWriter.Data
 {
     public class KickerConstants
     {
@@ -135,7 +136,7 @@ namespace KickerWriter.Model
             bool isKommentar = false;
             foreach (string line in fileContent)
             {
-                if (line.StartsWith("-Kommentar"))
+                if (line.StartsWith("-Kommentare"))
                 {
                     isKommentar = true;
                 }

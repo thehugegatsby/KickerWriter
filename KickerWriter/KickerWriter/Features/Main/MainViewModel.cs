@@ -1,5 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
+using KickerWriter.Data;
+using KickerWriter.Features.Vorbericht;
 using KickerWriter.Model;
 
 namespace KickerWriter.Features.Main
@@ -14,39 +18,13 @@ namespace KickerWriter.Features.Main
     {
         private readonly IDataService _dataService;
 
-        /// <summary>
-        /// The <see cref="WelcomeTitle" /> property's name.
-        /// </summary>
-        public const string WelcomeTitlePropertyName = "WelcomeTitle";
-
-        private string _welcomeTitle = string.Empty;
-
-        /// <summary>
-        /// Gets the WelcomeTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string WelcomeTitle
-        {
-            get
-            {
-                return _welcomeTitle;
-            }
-            set
-            {
-                Set(ref _welcomeTitle, value);
-            }
-        }
-
         private ObservableCollection<Season> _allSeasons;
 
         public ObservableCollection<Season> AllSeasons
         {
             get { return this._allSeasons; }
 
-            set
-            {
-                Set(ref _allSeasons, value);
-            }
+            set { Set(ref _allSeasons, value); }
         }
 
         private Season _selectedSeason;
@@ -58,6 +36,22 @@ namespace KickerWriter.Features.Main
             set
             {
                 Set(ref _selectedSeason, value);
+                Messenger.Default.Send<Season>(_selectedSeason);
+            }
+        }
+
+        public ObservableCollection<TabItem> Tabs { get; set; }
+        private TabItem _selectedTab;
+
+        public TabItem SelectedTab
+        {
+            get { return this._selectedTab; }
+
+            set
+            {
+                if (this._selectedTab == value) return;
+                this._selectedTab = value;
+                RaisePropertyChanged();
             }
         }
         /// <summary>
@@ -66,26 +60,15 @@ namespace KickerWriter.Features.Main
         public MainViewModel(IDataService dataService)
         {
             _dataService = dataService;
-            _dataService.GetData(
-                (item, error) =>
-                {
-                    if (error != null)
-                    {
-                        // Report error here
-                        return;
-                    }
-
-                    WelcomeTitle = item.Title;
-                });
             this.AllSeasons = new ObservableCollection<Season>(dataService.GetAllSeasons());
             this.SelectedSeason = IsInDesignModeStatic ? this.AllSeasons[1] : this.AllSeasons[0];
+
+            Tabs = new ObservableCollection<TabItem>
+            {
+                new TabItem {Header = "Vorbericht", ViewModel = SimpleIoc.Default.GetInstance<VorberichtViewModel>()}
+            };
+            SelectedTab = Tabs[0];
         }
-
-        ////public override void Cleanup()
-        ////{
-        ////    // Clean up if needed
-
-        ////    base.Cleanup();
-        ////}
     }
 }
+        

@@ -4,27 +4,24 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using KickerWriter.Model;
 using KickerWriter.Utilities;
 
-
-namespace KickerWriter.Model
+namespace KickerWriter.Data
 {
     public class DataService : IDataService
     {
-        private FilePathesBuilder _filePathesBuilder;
-        private FilePathesBuilder _filePathesBuilderDesktop;
-        private SeasonCalculations _seasonCalculations;
-        private KickerConstants _kickerConstants;
-        public void GetData(Action<DataItem, Exception> callback)
+        public DataService()
         {
             this._filePathesBuilder = new FilePathesBuilder();
             this._filePathesBuilderDesktop = new FilePathesBuilder(new KickerLatexPathDesktop());
             this._seasonCalculations = new SeasonCalculations();
             this._kickerConstants = new KickerConstants();
-
-            var item = new DataItem("Welcome to MVVM Light");
-            callback(item, null);
         }
+        private FilePathesBuilder _filePathesBuilder;
+        private FilePathesBuilder _filePathesBuilderDesktop;
+        private SeasonCalculations _seasonCalculations;
+        private KickerConstants _kickerConstants;
 
         public IEnumerable<Season> GetAllSeasons()
         {
@@ -90,7 +87,7 @@ namespace KickerWriter.Model
                     }
                     string keyWord = LineOperations.GetKeyWord(line).Replace(" ", string.Empty);
                     var property = typeof(Kommentar).GetProperty(keyWord);
-                    property.SetValue(actualVorbericht.Kommentar, LineOperations.GetValue(line), null);
+                    property.SetValue(actualVorbericht.Kommentare[0], LineOperations.GetValue(line), null);
                 }
                 if (!line.StartsWith("-"))
                 {
@@ -109,8 +106,8 @@ namespace KickerWriter.Model
                 }
             }
             actualSeason.Vorbericht = actualVorbericht;
-            actualSeason.Vorbericht.Kommentar.Text =
-                SetLineBreaksForKommentarText(actualSeason.Vorbericht.Kommentar.Text);
+            actualSeason.Vorbericht.Kommentare[0].Text =
+                SetLineBreaksForKommentarText(actualSeason.Vorbericht.Kommentare[0].Text);
             return actualSeason;
         }
 
@@ -139,9 +136,9 @@ namespace KickerWriter.Model
             newFileContent.Add(season.Vorbericht.Header);
             newFileContent.Add(string.Empty);
 
-            newFileContent.Add("-Kommentar:");
-            newFileContent.Add("Name: " + season.Vorbericht.Kommentar.Name);
-            newFileContent.Add("Text: " + season.Vorbericht.Kommentar.Text.Replace(Environment.NewLine, " "));
+            newFileContent.Add("-Kommentare:");
+            newFileContent.Add("Name: " + season.Vorbericht.Kommentare[0].Name);
+            newFileContent.Add("Text: " + season.Vorbericht.Kommentare[0].Text.Replace(Environment.NewLine, " "));
             File.WriteAllLines(filePathVorbericht, newFileContent, Encoding.Default);
         }
 
@@ -164,6 +161,19 @@ namespace KickerWriter.Model
                 }
             }
             return string.Join(" ", newKommentarTextList.ToArray());
+        }
+
+        public ObservableCollection<Kommentar> GetKommentare()
+        {
+            Kommentar mockKommentar = new Kommentar
+            {
+                Name = "Giovane Elber",
+                Text = "Super!",
+                PicturePath = @"C:\Users\David\Dropbox\Anstoss_3\KickerLatex\Bilder\SonstigeMenschen\GiovaneElber.jpg"
+            };
+            ObservableCollection<Kommentar> kommentare = new ObservableCollection<Kommentar>();
+            kommentare.Add(mockKommentar);
+            return new ObservableCollection<Kommentar>(kommentare);
         }
     }
 }

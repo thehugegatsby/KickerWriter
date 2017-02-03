@@ -11,7 +11,10 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using KickerWriter.Data;
+using KickerWriter.Features.Kommentar;
 using KickerWriter.Features.Main;
+using KickerWriter.Features.Vorbericht;
 using KickerWriter.Model;
 using Microsoft.Practices.ServiceLocation;
 
@@ -40,6 +43,8 @@ namespace KickerWriter.Features
             }
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<VorberichtViewModel>();
+            SimpleIoc.Default.Register<KommentarViewModel>();
         }
 
         /// <summary>
@@ -48,13 +53,9 @@ namespace KickerWriter.Features
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
-        public MainViewModel Main
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
+        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public VorberichtViewModel Vorbericht => ServiceLocator.Current.GetInstance<VorberichtViewModel>();
+        public KommentarViewModel Kommentar => ServiceLocator.Current.GetInstance<KommentarViewModel>();
 
         /// <summary>
         /// Cleans up all the resources.
